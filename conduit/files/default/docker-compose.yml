@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  conduit:
+    image: {{ conduit.lookup.containers.conduit.image }}
+    restart: unless-stopped
+    ports:
+      - {{ conduit.config.port }}:{{ conduit.config.port }}
+    volumes:
+      - {{ conduit.lookup.paths.db or "db" }}:/var/lib/matrix-conduit/
+    env_file:
+      - {{ conduit.lookup.paths.config_conduit }}
+
+{%- if conduit.element.enable %}
+
+  ### Note: You need to provide a config.json for Element and you also need a second
+  ###       Domain or Subdomain for the communication between Element and Conduit
+  ### Config-Docs: https://github.com/vector-im/element-web/blob/develop/docs/config.md
+  element-web:
+    image: {{ conduit.lookup.containers.element.image }}
+    restart: unless-stopped
+    ports:
+      - {{ conduit.element.host_port }}:80
+    volumes:
+      - {{ conduit.lookup.paths.element_config_js}}:/app/config.json
+    env_file:
+      - {{ conduit.lookup.paths.config_element }}
+    depends_on:
+      - conduit
+{%- endif %}
+
+{%- if not conduit.lookup.paths.db %}
+
+volumes:
+    db:
+{%- endif %}
