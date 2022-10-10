@@ -10,6 +10,10 @@ services:
       - {{ conduit.lookup.paths.db or "db" }}:/var/lib/matrix-conduit/
     env_file:
       - {{ conduit.lookup.paths.config_conduit }}
+{%- if conduit.install.autoupdate %}
+    labels:
+      - io.containers.autoupdate=registry
+{%- endif %}
 
 {%- if conduit.element.enable %}
 
@@ -25,6 +29,10 @@ services:
       - {{ conduit.lookup.paths.element_config_js}}:/app/config.json
     env_file:
       - {{ conduit.lookup.paths.config_element }}
+{%-   if conduit.install.autoupdate %}
+    labels:
+      - io.containers.autoupdate=registry
+{%-   endif %}
     depends_on:
       - conduit
 {%- endif %}

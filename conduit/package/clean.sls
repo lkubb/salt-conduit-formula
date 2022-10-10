@@ -8,6 +8,18 @@
 include:
   - {{ sls_config_clean }}
 
+{%- if conduit.install.autoupdate_service %}
+
+Podman autoupdate service is disabled for Conduit Matrix Homeserver:
+{%-   if conduit.install.rootless %}
+  compose.systemd_service_disabled:
+    - user: {{ conduit.lookup.user.name }}
+{%-   else %}
+  service.disabled:
+{%-   endif %}
+    - name: podman-auto-update.timer
+{%- endif %}
+
 Conduit Matrix Homeserver is absent:
   compose.removed:
     - name: {{ conduit.lookup.paths.compose }}

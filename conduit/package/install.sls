@@ -87,3 +87,15 @@ Conduit Matrix Homeserver is installed:
     - require:
       - user: {{ conduit.lookup.user.name }}
 {%- endif %}
+
+{%- if conduit.install.autoupdate_service is not none %}
+
+Podman autoupdate service is managed for Conduit Matrix Homeserver:
+{%-   if conduit.install.rootless %}
+  compose.systemd_service_{{ "enabled" if conduit.install.autoupdate_service else "disabled" }}:
+    - user: {{ conduit.lookup.user.name }}
+{%-   else %}
+  service.{{ "enabled" if conduit.install.autoupdate_service else "disabled" }}:
+{%-   endif %}
+    - name: podman-auto-update.timer
+{%- endif %}
