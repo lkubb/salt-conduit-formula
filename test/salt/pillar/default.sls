@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # vim: ft=yaml
 ---
 conduit:
@@ -47,6 +46,7 @@ conduit:
     autoupdate: true
     autoupdate_service: false
     remove_all_data_for_sure: false
+    podman_api: true
   config:
     address: 0.0.0.0
     allow_federation: true

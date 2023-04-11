@@ -1,3 +1,4 @@
+---
 version: '3'
 
 services:
@@ -26,7 +27,7 @@ services:
     ports:
       - {{ conduit.element.host_port }}:80
     volumes:
-      - {{ conduit.lookup.paths.element_config_js}}:/app/config.json
+      - {{ conduit.lookup.paths.element_config_js }}:/app/config.json
     env_file:
       - {{ conduit.lookup.paths.config_element }}
 {%-   if conduit.install.autoupdate %}

@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/lkubb/salt-template-formula-compose",
-  "commit": "b1b49a56d73a70a6de7f34d0a5d3c6e65f8202a5",
+  "commit": "d261bbd33723b1b8df5d67d58918868e3d70d76b",
   "checkout": null,
   "context": {
     "cookiecutter": {
@@ -21,7 +21,7 @@
       "project_name": "conduit",
       "containers": "conduit,element",
       "git_username": "lkubb",
-      "_lookup": {
+      "lookup": {
         "containers": {
           "conduit": {
             "image": "docker.io/matrixconduit/matrix-conduit:latest"
@@ -35,7 +35,7 @@
           "element_config_js": "element_config.js"
         }
       },
-      "_settings": {
+      "settings": {
         "config": {
           "server_name": "your.server.name",
           "database_path": "/var/lib/matrix-conduit/",

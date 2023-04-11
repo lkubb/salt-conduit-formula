@@ -1,7 +1,12 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
+
+{#-
+    Stops the conduit, element container services
+    and disables them at boot time.
+#}
+
+{%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as conduit with context %}
 
 conduit service is dead:

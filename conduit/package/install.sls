@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
+{%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as conduit with context %}
 {%- from tplroot ~ "/libtofs.jinja" import files_switch with context %}
 
@@ -50,18 +49,34 @@ Conduit database directory has the correct owner:
     - runas: {{ conduit.lookup.user.name }}
 {%- endif %}
 
+{%- if conduit.install.podman_api %}
+
+Conduit Matrix Homeserver podman API is enabled:
+  compose.systemd_service_enabled:
+    - name: podman.socket
+    - user: {{ conduit.lookup.user.name }}
+    - require:
+      - Conduit Matrix Homeserver user session is initialized at boot
+
+Conduit Matrix Homeserver podman API is available:
+  compose.systemd_service_running:
+    - name: podman.socket
+    - user: {{ conduit.lookup.user.name }}
+    - require:
+      - Conduit Matrix Homeserver user session is initialized at boot
+{%- endif %}
 
 Conduit Matrix Homeserver compose file is managed:
   file.managed:
     - name: {{ conduit.lookup.paths.compose }}
-    - source: {{ files_switch(['docker-compose.yml', 'docker-compose.yml.j2'],
-                              lookup='Conduit Matrix Homeserver compose file is present'
+    - source: {{ files_switch(["docker-compose.yml", "docker-compose.yml.j2"],
+                              lookup="Conduit Matrix Homeserver compose file is present"
                  )
               }}
     - mode: '0644'
     - user: root
     - group: {{ conduit.lookup.rootgroup }}
-    - makedirs: True
+    - makedirs: true
     - template: jinja
     - makedirs: true
     - context:
