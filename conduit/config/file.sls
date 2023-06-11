@@ -1,9 +1,9 @@
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
-{%- set sls_package_install = tplroot ~ '.package.install' %}
+{%- set tplroot = tpldir.split("/")[0] %}
+{%- set sls_package_install = tplroot ~ ".package.install" %}
 {%- from tplroot ~ "/map.jinja" import mapdata as conduit with context %}
-{%- from tplroot ~ "/libtofs.jinja" import files_switch with context %}
+{%- from tplroot ~ "/libtofsstack.jinja" import files_switch with context %}
 
 include:
   - {{ sls_package_install }}
@@ -12,23 +12,27 @@ Conduit Matrix Homeserver environment files are managed:
   file.managed:
     - names:
       - {{ conduit.lookup.paths.config_conduit }}:
-        - source: {{ files_switch(['conduit.env', 'conduit.env.j2'],
-                                  lookup='conduit environment file is managed',
-                                  indent_width=10,
+        - source: {{ files_switch(
+                        ["conduit.env", "conduit.env.j2"],
+                        config=conduit,
+                        lookup="conduit environment file is managed",
+                        indent_width=10,
                      )
                   }}
 {%- if conduit.element.enable %}
       - {{ conduit.lookup.paths.config_element }}:
-        - source: {{ files_switch(['element.env', 'element.env.j2'],
-                                  lookup='element environment file is managed',
-                                  indent_width=10,
+        - source: {{ files_switch(
+                        ["element.env", "element.env.j2"],
+                        config=conduit,
+                        lookup="element environment file is managed",
+                        indent_width=10,
                      )
                   }}
 {%- endif %}
     - mode: '0640'
     - user: root
     - group: {{ conduit.lookup.user.name }}
-    - makedirs: True
+    - makedirs: true
     - template: jinja
     - require:
       - user: {{ conduit.lookup.user.name }}
@@ -46,7 +50,7 @@ Element config file is managed:
     - mode: '0644'
     - user: root
     - group: {{ conduit.lookup.user.name }}
-    - makedirs: True
+    - makedirs: true
     - require:
       - user: {{ conduit.lookup.user.name }}
     - watch_in:

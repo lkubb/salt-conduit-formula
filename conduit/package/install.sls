@@ -2,7 +2,7 @@
 
 {%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as conduit with context %}
-{%- from tplroot ~ "/libtofs.jinja" import files_switch with context %}
+{%- from tplroot ~ "/libtofsstack.jinja" import files_switch with context %}
 
 Conduit Matrix Homeserver user account is present:
   user.present:
@@ -69,8 +69,10 @@ Conduit Matrix Homeserver podman API is available:
 Conduit Matrix Homeserver compose file is managed:
   file.managed:
     - name: {{ conduit.lookup.paths.compose }}
-    - source: {{ files_switch(["docker-compose.yml", "docker-compose.yml.j2"],
-                              lookup="Conduit Matrix Homeserver compose file is present"
+    - source: {{ files_switch(
+                    ["docker-compose.yml", "docker-compose.yml.j2"],
+                    config=conduit,
+                    lookup="Conduit Matrix Homeserver compose file is present",
                  )
               }}
     - mode: '0644'
