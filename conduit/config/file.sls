@@ -36,7 +36,7 @@ Conduit Matrix Homeserver environment files are managed:
     - template: jinja
     - require:
       - user: {{ conduit.lookup.user.name }}
-    - watch_in:
+    - require_in:
       - Conduit Matrix Homeserver is installed
     - context:
         conduit: {{ conduit | json }}
@@ -53,7 +53,5 @@ Element config file is managed:
     - makedirs: true
     - require:
       - user: {{ conduit.lookup.user.name }}
-    - watch_in:
-      - Conduit is installed
     - dataset: {{ conduit.element.config | json }}
 {%- endif %}

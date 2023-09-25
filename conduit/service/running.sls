@@ -34,3 +34,4 @@ Conduit Matrix Homeserver service is running:
 {%- endif %}
     - watch:
       - Conduit Matrix Homeserver is installed
+      - sls: {{ sls_config_file }}
